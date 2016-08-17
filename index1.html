@@ -1,0 +1,107 @@
+<html>
+<head>
+	<title>Chat</title>
+	<style>
+		#chatWrap{
+			float:left;
+			border:1px solid #000;
+		}
+		#chat{
+			overflow-x: scroll;
+			height:500px;
+			border-bottom:2px solid black;
+		}
+		#typing{
+			height:30px;
+			border:1px solid #000;
+		}
+		#typing li{
+			list-style-type: none;
+			margin-left: 10px;
+		}
+		#contentWrap{
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<div id="nickWrap">
+		<p id="nickError">Enter a username:</p>
+		<form id="setNick">
+			<input size="35" id="nickname" required></input>
+			<input size="35" id="friend_name" required></input>
+			<input type="submit"></input>
+		</form>
+	</div>
+
+	<div id="contentWrap">
+		<div id="chatWrap">
+			<div id="typing"></div>
+			<div id="chat"></div>
+			<form id="send_message">
+				<input size="35" id="message"></input>
+				<input type="submit"> </input>
+			</form>
+		</div>
+		<div id="users"></div>
+	</div>
+	
+	<!-- socket.on is used to recieve msg -->
+	
+</body>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="socket.io.min.js"></script>
+	
+	
+	<script>
+		jQuery(function($){	
+			// create a socket object
+			var socket = io.connect("http://localhost:3000");
+			var $nickForm = $('#setNick');
+			var $nickError = $('#nickError');
+			var $nickBox = $('#nickname');
+			var $friend_name = $('#friend_name');
+			var $messageForm = $('#send_message');
+			var $messageBox = $('#message');
+			var $chat = $('#chat');
+			/* event handler */
+
+			// register the user into socket
+			$nickForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('new_user', { usernick: $nickBox.val(), friend_name: $friend_name.val()}); 
+						$('#nickWrap').hide();
+						$('#contentWrap').show();
+					
+				});
+				
+			// send new message
+			$messageForm.submit(function(e){
+				e.preventDefault(); 
+				socket.emit('send_message', {message: $messageBox.val(), friend_name: $friend_name.val(), user_name: $nickBox.val()});
+				$messageBox.val('');
+			});
+			
+			// recieve message by user with friend_name value in send_message event
+			socket.on('new_message', function(data){
+				displaymsg(data);
+			});
+			// reieve message by user with user_name value in send_message event
+			socket.on('new_message_return', function(data){
+				displaymsg(data);
+			});
+			
+			function displaymsg(data){
+				var datastring = JSON.stringify(data);
+		var dataparsed = JSON.parse(datastring);
+			$chat.append('<b style="color:green">'+ dataparsed.user_name + ' : </b>' + dataparsed.message + "<br>");
+			}
+			
+			$("#chat").bind("DOMSubtreeModified",function() {
+				$("#chat").animate({
+				scrollTop: $("#chat")[0].scrollHeight
+				});
+				});
+		});
+	</script>
+</html>
