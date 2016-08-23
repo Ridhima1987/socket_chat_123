@@ -1,15 +1,25 @@
+var express = require('express');
+var app = express();
+app.set('port', (process.env.PORT || 5000));
+
+var server = app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+});
+
+var io = require('socket.io')(server);
 
 
-var express = require('express');  // lightweight framework which node requires
-	app = express();
-	var server = require('http').createServer(app);  // socket needs http server module
-	io = require('socket.io').listen(server);
-	var mysql = require('mysql');  
+
+//var express = require('express');  // lightweight framework which node requires
+	//app = express();
+	//var server = require('http').createServer(app);  // socket needs http server module
+//	io = require('socket.io').listen(server);
+	//var mysql = require('mysql');  
 	users = {};
 	
 //var port = normalizePort();
 //app.set('port', port);	
-server.listen(process.env.PORT || 5000);  // what port to listen
+//server.listen(process.env.PORT || 5000);  // what port to listen
 
 io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
