@@ -7,8 +7,8 @@ var express = require('express');  // lightweight framework which node requires
 	var mysql = require('mysql');  
 	users = {};	
 var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);	
-//server.listen(process.env.PORT || 5000);  // what port to listen
+//app.set('port', port);	
+server.listen(port);  // what port to listen
 
 //var connection = mysql.createConnection({
 // host: 'localhost',
