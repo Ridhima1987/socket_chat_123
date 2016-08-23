@@ -56,7 +56,8 @@
 	<script>
 		jQuery(function($){	
 			// create a socket object
-			var socket = io.connect("http://localhost:3000");
+			var port=5000 || process.env.PORT;
+			var socket = io.connect(port);
 			var $nickForm = $('#setNick');
 			var $nickError = $('#nickError');
 			var $nickBox = $('#nickname');
