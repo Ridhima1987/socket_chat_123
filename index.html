@@ -56,13 +56,9 @@
 	<script>
 		jQuery(function($){	
 			// create a socket object
-		
-			var socket = io.set('transports', ['websocket', 
-                  'flashsocket', 
-                  'htmlfile', 
-                  'xhr-polling', 
-                  'jsonp-polling', 
-                  'polling']);
+		        //io.set('transports', ['xhr-polling']);
+                       // io.set('polling duration', 10);
+			var socket = io.connect(window.location.hostname);
 			var $nickForm = $('#setNick');
 			var $nickError = $('#nickError');
 			var $nickBox = $('#nickname');
