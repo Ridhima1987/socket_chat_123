@@ -9,22 +9,22 @@ var express = require('express');  // lightweight framework which node requires
 	
 server.listen(3000);  // what port to listen
 
-var connection = mysql.createConnection({
- host: 'localhost',
- user: 'root',
- password: '',
- database: 'final_chat'
-});   
-connection.connect(function(err){
-	if(err){
-		console.log(err);
-	}else{
-		console.log('connected');
-	}
-});
+//var connection = mysql.createConnection({
+// host: 'localhost',
+// user: 'root',
+// password: '',
+ //database: 'final_chat'
+//});   
+//connection.connect(function(err){
+//	if(err){
+	//	console.log(err);
+//	}else{
+//		console.log('connected');
+//	}
+//});
 
 // database name to be used
-connection.query('use final_chat');
+//connection.query('use final_chat');
 
 // end mysql
 // create route
