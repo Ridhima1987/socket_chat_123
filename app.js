@@ -1,18 +1,23 @@
-var express = require('express');  // lightweight framework which node requires
-	app = express();
-	var server = require('http').createServer(app);  // socket needs http server module
-	io = require('socket.io').listen(server);
+var app = require('express').createServer();
+var io = require('socket.io')(app);
+
+app.listen(80);
+
+//var express = require('express');  // lightweight framework which node requires
+//	app = express();
+//	var server = require('http').createServer(app);  // socket needs http server module
+	//io = require('socket.io').listen(server);
 	var mysql = require('mysql');  
 	users = {};
 	
 //var port = normalizePort();
 //app.set('port', port);	
-server.listen(process.env.PORT || 5000);  // what port to listen
+//server.listen(process.env.PORT || 5000);  // what port to listen
 
-io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
+//io.configure(function () { 
+//  io.set("transports", ["xhr-polling"]); 
+//  io.set("polling duration", 10); 
+//});
 
 //var connection = mysql.createConnection({
 // host: 'localhost',
