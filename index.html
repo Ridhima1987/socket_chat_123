@@ -1,57 +1,9 @@
 <html>
 <head>
 	<title>Chat</title>
-	<style>
-		#chatWrap{
-			float:left;
-			border:1px solid #000;
-		}
-		#chat{
-			overflow-x: scroll;
-			height:500px;
-			border-bottom:2px solid black;
-		}
-		#typing{
-			height:30px;
-			border:1px solid #000;
-		}
-		#typing li{
-			list-style-type: none;
-			margin-left: 10px;
-		}
-		#contentWrap{
-			display:none;
-		}
-	</style>
-</head>
-<body>
-	<div id="nickWrap">
-		<p id="nickError">Enter a username:</p>
-		<form>
-			<input size="35" id="nickname" required></input>
-			<input size="35" id="friend_name" required></input>
-			<input type="submit" id="setNick"></input>
-		</form>
-	</div>
-
-	<div id="contentWrap">
-		<div id="chatWrap">
-			<div id="typing"></div>
-			<div id="chat"></div>
-			<form id="send_message">
-				<input size="35" id="message"></input>
-				<input type="submit"> </input>
-			</form>
-		</div>
-		<div id="users"></div>
-	</div>
-	
-	<!-- socket.on is used to recieve msg -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="socket.io.min.js"></script>
-	
-	
-	<script>
+		<script>
 		jQuery(function($){	
 			// create a socket object
 		       // io.set('transports', ['xhr-polling']);
@@ -104,6 +56,56 @@
 				});
 		});
 	</script>
+	<style>
+		#chatWrap{
+			float:left;
+			border:1px solid #000;
+		}
+		#chat{
+			overflow-x: scroll;
+			height:500px;
+			border-bottom:2px solid black;
+		}
+		#typing{
+			height:30px;
+			border:1px solid #000;
+		}
+		#typing li{
+			list-style-type: none;
+			margin-left: 10px;
+		}
+		#contentWrap{
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<div id="nickWrap">
+		<p id="nickError">Enter a username:</p>
+		<form>
+			<input size="35" id="nickname" required></input>
+			<input size="35" id="friend_name" required></input>
+			<input type="submit" id="setNick"></input>
+		</form>
+	</div>
+
+	<div id="contentWrap">
+		<div id="chatWrap">
+			<div id="typing"></div>
+			<div id="chat"></div>
+			<form id="send_message">
+				<input size="35" id="message"></input>
+				<input type="submit"> </input>
+			</form>
+		</div>
+		<div id="users"></div>
+	</div>
+	
+	<!-- socket.on is used to recieve msg -->
+
+	
+	
+
 	
 </body>
 
