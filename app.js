@@ -2,7 +2,8 @@
 var express = require('express');  // lightweight framework which node requires
 	app = express();
 	var server = require('http').createServer(app);  // socket needs http server module
-	io = require('socket.io').listen(server);
+//	io = require('socket.io').listen(server);
+	io =require('../..').(server);
 	var mysql = require('mysql');  
 	users = {};
 	
