@@ -40,7 +40,7 @@ app.use('/*', function(req, res){
 });
 // turn on connection event whenever client connects to server. it takes function parameter as socket that cliet is using
 
-io.sockets.on('connection', function(socket){
+io.on('connection', function(socket){
 	// all socket code goes inside this.
 console.log("socket connected");	
  
