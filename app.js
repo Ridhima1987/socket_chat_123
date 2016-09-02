@@ -34,7 +34,7 @@ server.listen(process.env.PORT || 5000);  // what port to listen
 
 // end mysql
 // create route
-app.get('/*', function(req, res){
+app.use('/*', function(req, res){
 	res.sendfile(__dirname + '/index.html');
 });
 // turn on connection event whenever client connects to server. it takes function parameter as socket that cliet is using
