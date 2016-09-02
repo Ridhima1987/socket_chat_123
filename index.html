@@ -30,7 +30,7 @@
 		<form id="setNick" >
 			<input size="35" id="nickname" required></input>
 			<input size="35" id="friend_name" required></input>
-			<input type="submit"></input>
+			<input type="submit" id="setNick"></input>
 		</form>
 	</div>
 
@@ -69,7 +69,7 @@
 			/* event handler */
 
 			// register the user into socket
-			$nickForm.click(function(){
+			$('#setNick').click(function(){
 				e.preventDefault();
 				socket.emit('new_user', { usernick: $nickBox.val(), friend_name: $friend_name.val()}); 
 						$('#nickWrap').hide();
