@@ -1,79 +1,75 @@
+// Setup basic express server
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('../..')(server);
+var port = process.env.PORT || 3000;
 
-var express = require('express');  // lightweight framework which node requires
-	app = express();
-	var server = require('http').createServer(app);  // socket needs http server module
-	io = require('socket.io').listen(server);
-//	io =require('../..')(server);
-	var mysql = require('mysql');  
-	users = {};
-	
-//var port = normalizePort();
-//app.set('port', port);	
-server.listen(process.env.PORT || 2000);  // what port to listen
-
-// io.configure(function () { 
-//  io.set("transports", ["xhr-polling"]); 
-//  io.set("polling duration", 10); 
-// });
-
-//var connection = mysql.createConnection({
-// host: 'localhost',
-// user: 'root',
-// password: '',
- //database: 'final_chat'
-//});   
-//connection.connect(function(err){
-//	if(err){
-	//	console.log(err);
-//	}else{
-//		console.log('connected');
-//	}
-//});
-
-// database name to be used
-//connection.query('use final_chat');
-
-// end mysql
-// create route
-app.use('/*', function(req, res){
-	res.sendfile(__dirname + '/index.html');
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
 });
-// turn on connection event whenever client connects to server. it takes function parameter as socket that cliet is using
 
-io.sockets.on('connection', function(socket){
-	// all socket code goes inside this.
-console.log("socket connected");	
- 
-/* connection.query('SELECT * FROM chat order by time desc limit 2', function(err, docs){
- if(err) throw err;
-		socket.emit('load old msgs', docs);
- });*/
-	
-	// socket.on used to recieve events
-	socket.on('new_user', function(data){
-		// data object has all the data which is sent from .emit
-			var datastring = JSON.stringify(data);
-			var dataparsed = JSON.parse(datastring);
-			socket.nickname = dataparsed.usernick;
-			users[socket.nickname] = socket;
-			console.log(socket.nickname);
-	});
-	
+// Routing
+app.use(express.static(__dirname + '/public'));
 
-	socket.on('send_message', function(data){
-		var datastring = JSON.stringify(data);
-		var dataparsed = JSON.parse(datastring);
-		if(dataparsed.friend_name in users){
-			users[dataparsed.friend_name].emit('new_message', {message: dataparsed.message, user_name: dataparsed.user_name});
-		}
-		// .emit is used for sending events. pattern .emit('funtion_name', { json data });
-		users[dataparsed.user_name].emit('new_message_return', {message: dataparsed.message, user_name: dataparsed.user_name});
-	});
-		// socket.on recieves msg. emit sends msg
-	
-	
-	socket.on('disconnect', function(data){
-		if(!socket.nickname) return;
-		delete users[socket.nickname];
-	});
+// Chatroom
+
+var numUsers = 0;
+
+io.on('connection', function (socket) {
+  var addedUser = false;
+
+  // when the client emits 'new message', this listens and executes
+  socket.on('new message', function (data) {
+    // we tell the client to execute 'new message'
+    socket.broadcast.emit('new message', {
+      username: socket.username,
+      message: data
+    });
+  });
+
+  // when the client emits 'add user', this listens and executes
+  socket.on('add user', function (username) {
+    if (addedUser) return;
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('login', {
+      numUsers: numUsers
+    });
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  socket.on('typing', function () {
+    socket.broadcast.emit('typing', {
+      username: socket.username
+    });
+  });
+
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', function () {
+    socket.broadcast.emit('stop typing', {
+      username: socket.username
+    });
+  });
+
+  // when the user disconnects.. perform this
+  socket.on('disconnect', function () {
+    if (addedUser) {
+      --numUsers;
+
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        numUsers: numUsers
+      });
+    }
+  });
 });
