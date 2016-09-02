@@ -42,7 +42,7 @@ app.use('/*', function(req, res){
 
 io.sockets.on('connection', function(socket){
 	// all socket code goes inside this.
-	
+console.log("socket connected");	
  
 /* connection.query('SELECT * FROM chat order by time desc limit 2', function(err, docs){
  if(err) throw err;
