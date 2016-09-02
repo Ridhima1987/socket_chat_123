@@ -69,7 +69,7 @@
 			/* event handler */
 
 			// register the user into socket
-			$nickForm.click(function(e){
+			$nickForm.click(function(){
 				e.preventDefault();
 				socket.emit('new_user', { usernick: $nickBox.val(), friend_name: $friend_name.val()}); 
 						$('#nickWrap').hide();
