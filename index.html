@@ -8,7 +8,7 @@
 			// create a socket object
 		       // io.set('transports', ['xhr-polling']);
                       //  io.set('polling duration', 10);
-			var socket = io('http://localhost', {path: '/node_modules/socket.io'});
+			var socket = io('http://localhost', {resource: '/node_modules/socket.io'});
 			var $nickForm = $('#setNick');
 			var $nickError = $('#nickError');
 			var $nickBox = $('#nickname');
