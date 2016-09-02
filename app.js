@@ -8,7 +8,7 @@ var express = require('express');  // lightweight framework which node requires
 	
 //var port = normalizePort();
 //app.set('port', port);	
-server.listen('process.env.port || 5000');  // what port to listen
+server.listen(process.env.PORT || 5000);  // what port to listen
 
 //io.configure(function () { 
 //  io.set("transports", ["xhr-polling"]); 
